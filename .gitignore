@@ -1,0 +1,40 @@
+node_modules/
+temporary\ screenshots/
+
+# Dev tooling
+*.mjs
+setup.bat
+CLAUDE.md
+package.json
+package-lock.json
+
+# .mov files (site uses .mp4 only)
+*.mov
+
+# Source PNGs where site uses -web.jpg versions
+assets/bridgwater/Back\ on\ Instagram.png
+assets/bridgwater/Community\ Day.png
+assets/bridgwater/Fa\ Vase.png
+assets/bridgwater/Interview\ Graphic.png
+assets/bridgwater/Match\ Day\ Graphic.png
+assets/bridgwater/Quote\ Graphic.png
+assets/bridgwater/Match\ Day\ Brislington.png
+assets/taunton/Fixtures.jpg
+assets/taunton/Full\ Time.png
+assets/taunton/Goal.png
+assets/taunton/Match\ Day.png
+assets/taunton/New\ Player.jpg
+assets/taunton/Social\ Growth.png
+
+# Unused purplex renders
+assets/purplex/pdf-*.jpg
+assets/purplex/Art\ of\ Marketing-full.jpg
+
+# Unused poster images
+assets/bridgwater/Unbeaten\ Promo-poster.jpg
+assets/purplex/Webinar\ Promo-poster.jpg
+
+# Files exceeding GitHub 100MB limit
+assets/bridgwater/Behind\ the\ Nest.mp4
+assets/bridgwater/Unbeaten\ Promo.mp4
+assets/purplex/Art\ of\ Marketing.pdf

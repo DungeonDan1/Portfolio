@@ -1,0 +1,1823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dan Rowe — Content, Marketing & Media</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:        #080808;
+      --surface:   #101010;
+      --elevated:  #181818;
+      --floating:  #222222;
+      --primary:   #f0ede8;
+      --secondary: #7a7672;
+      --accent:    #c9a84c;
+      --accent-lo: rgba(201,168,76,0.12);
+      --border:    rgba(255,255,255,0.07);
+      --border-hi: rgba(201,168,76,0.25);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--primary);
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* Grain overlay — sits above base content but below modals (z-index 500) */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 150;
+    }
+
+    /* Display font */
+    .serif { font-family: 'Playfair Display', serif; }
+
+    /* Accent */
+    .gold  { color: var(--accent); }
+    .muted { color: var(--secondary); }
+
+    /* Divider rule */
+    .rule {
+      width: 40px;
+      height: 1px;
+      background: var(--accent);
+      display: block;
+    }
+
+    /* Label */
+    .eyebrow {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 200;
+      background: rgba(8,8,8,0.88);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 32px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .nav-brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      color: var(--primary);
+      white-space: nowrap;
+    }
+    .nav-logos {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+    .nav-logo-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 4px;
+      opacity: 0.45;
+      transition: opacity 0.2s ease;
+      display: flex;
+      align-items: center;
+    }
+    .nav-logo-btn:hover   { opacity: 1; }
+    .nav-logo-btn:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+      opacity: 1;
+    }
+    .nav-logo-btn:active  { opacity: 0.7; }
+    .nav-logo-btn img { display: block; }
+    .nav-taunton {
+      font-family: 'Playfair Display', serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      color: var(--primary);
+      text-transform: uppercase;
+      line-height: 1.3;
+    }
+    .nav-cv {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      color: var(--accent);
+      border: 1px solid var(--border-hi);
+      border-radius: 40px;
+      padding: 6px 18px;
+      white-space: nowrap;
+      text-decoration: none;
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+    .nav-cv:hover         { background: var(--accent-lo); border-color: var(--accent); }
+    .nav-cv:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+    .nav-cv:active        { opacity: 0.75; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding-top: 64px;
+      background:
+        radial-gradient(ellipse 700px 500px at 15% 40%, rgba(201,168,76,0.045) 0%, transparent 70%),
+        radial-gradient(ellipse 500px 700px at 85% 65%, rgba(201,168,76,0.02) 0%, transparent 65%);
+    }
+    .hero-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 80px 32px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 80px;
+      align-items: center;
+    }
+    .hero-kicker {
+      margin-bottom: 24px;
+    }
+    .hero-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(52px, 7vw, 84px);
+      font-weight: 500;
+      line-height: 0.95;
+      letter-spacing: -0.03em;
+      margin-bottom: 28px;
+    }
+    .hero-rule { margin-bottom: 28px; }
+    .hero-bio {
+      color: #9e9a95;
+      font-size: 17px;
+      line-height: 1.8;
+      max-width: 480px;
+      margin-bottom: 32px;
+    }
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    /* Photo frame */
+    .photo-frame {
+      position: relative;
+      width: 260px;
+      height: 320px;
+      flex-shrink: 0;
+    }
+    .photo-frame::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 14px;
+      border: 1px solid var(--border-hi);
+      transform: translate(10px, 10px);
+      z-index: 0;
+    }
+    .photo-wrap {
+      position: absolute;
+      inset: 0;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.05);
+      z-index: 1;
+    }
+    .photo-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+    .photo-wrap::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(8,8,8,0.35) 0%, transparent 55%);
+    }
+
+    /* ── TAG ── */
+    .tag {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: var(--accent-lo);
+      border: 1px solid rgba(201,168,76,0.18);
+      border-radius: 3px;
+      padding: 4px 9px;
+    }
+
+    /* ── BIO SECTION ── */
+    .bio-section {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 96px 32px;
+    }
+    .bio-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 64px;
+      align-items: start;
+    }
+    .bio-label h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 500;
+      letter-spacing: -0.025em;
+      margin-bottom: 14px;
+    }
+    .bio-text {
+      color: #9e9a95;
+      font-size: 16px;
+      line-height: 1.85;
+    }
+    .bio-text p + p { margin-top: 20px; }
+    .bio-skills {
+      margin-top: 32px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    /* ── PORTFOLIO ── */
+    .portfolio-section {
+      padding: 96px 32px;
+      background:
+        radial-gradient(ellipse 800px 600px at 80% 20%, rgba(201,168,76,0.03) 0%, transparent 65%),
+        radial-gradient(ellipse 600px 800px at 10% 80%, rgba(201,168,76,0.02) 0%, transparent 65%);
+    }
+    .portfolio-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .portfolio-header {
+      margin-bottom: 56px;
+    }
+    .portfolio-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px;
+      font-weight: 500;
+      letter-spacing: -0.025em;
+      margin: 12px 0 8px;
+    }
+    .portfolio-hint {
+      font-size: 13px;
+      color: #444;
+      margin-top: 6px;
+    }
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    /* Card */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 36px;
+      cursor: pointer;
+      position: relative;
+      transition:
+        transform 0.35s cubic-bezier(0.34,1.56,0.64,1),
+        box-shadow 0.35s ease,
+        border-color 0.25s ease;
+    }
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow:
+        0 24px 64px rgba(0,0,0,0.55),
+        0 0 0 1px rgba(201,168,76,0.18),
+        0 4px 16px rgba(201,168,76,0.06);
+      border-color: rgba(201,168,76,0.22);
+    }
+    .card:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 4px;
+      border-radius: 14px;
+    }
+    .card:active {
+      transform: translateY(-5px);
+      transition: transform 0.12s ease;
+    }
+    .card-logo {
+      height: 56px;
+      display: flex;
+      align-items: center;
+      margin-bottom: 28px;
+    }
+    .card-logo img { display: block; object-fit: contain; }
+    .card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      margin-bottom: 4px;
+    }
+    .card-role {
+      font-size: 12px;
+      color: var(--secondary);
+      margin-bottom: 22px;
+    }
+    .card-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .card-arrow {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 28px;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      color: var(--accent);
+    }
+    .card-arrow svg {
+      transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .card:hover .card-arrow svg { transform: translateX(4px); }
+
+    /* ── TESTIMONIALS ── */
+    .testimonials-section {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 96px 32px;
+    }
+    .testimonials-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .testimonials-header {
+      margin-bottom: 56px;
+    }
+    .testimonials-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px;
+      font-weight: 500;
+      letter-spacing: -0.025em;
+      margin: 12px 0 0;
+    }
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+    .tcard {
+      background: var(--elevated);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 40px;
+    }
+    .tcard-mark {
+      font-family: 'Playfair Display', serif;
+      font-size: 48px;
+      line-height: 1;
+      color: var(--accent);
+      margin-bottom: 20px;
+      opacity: 0.7;
+    }
+    .tcard-quote {
+      font-size: 16px;
+      line-height: 1.8;
+      color: #9e9a95;
+      margin-bottom: 28px;
+    }
+    .tcard-name {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--primary);
+    }
+    .tcard-role {
+      font-size: 12px;
+      color: var(--secondary);
+      margin-top: 3px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 64px 32px;
+    }
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+      border-top: 1px solid var(--border);
+      padding-top: 48px;
+    }
+    .footer-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+    }
+    .footer-sub {
+      font-size: 12px;
+      color: var(--secondary);
+      margin-top: 4px;
+      letter-spacing: 0.04em;
+    }
+    .footer-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+    .footer-link {
+      font-size: 13px;
+      color: #555;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    .footer-link:hover        { color: var(--primary); }
+    .footer-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+    .footer-link.accent       { color: var(--accent); }
+    .footer-link.accent:hover { opacity: 0.75; }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.82);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+    .modal-box {
+      background: var(--elevated);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 16px;
+      max-width: 660px;
+      width: 100%;
+      max-height: 88vh;
+      overflow-y: auto;
+      transform: translateY(20px) scale(0.98);
+      transition:
+        transform 0.32s cubic-bezier(0.34,1.56,0.64,1),
+        opacity 0.25s ease;
+      opacity: 0;
+      scrollbar-width: thin;
+      scrollbar-color: #2a2a2a transparent;
+    }
+    .modal-overlay.open .modal-box {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+    .modal-box::-webkit-scrollbar       { width: 4px; }
+    .modal-box::-webkit-scrollbar-track { background: transparent; }
+    .modal-box::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 2px; }
+    .modal-head {
+      padding: 36px 36px 28px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .modal-head-left {}
+    .modal-logo { margin-bottom: 20px; }
+    .modal-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 500;
+      letter-spacing: -0.025em;
+      margin-bottom: 4px;
+    }
+    .modal-subtitle { font-size: 13px; color: var(--secondary); }
+    .modal-close {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #444;
+      font-size: 22px;
+      line-height: 1;
+      padding: 4px;
+      border-radius: 4px;
+      flex-shrink: 0;
+      transition: color 0.2s ease, transform 0.15s ease;
+    }
+    .modal-close:hover        { color: var(--primary); transform: scale(1.12); }
+    .modal-close:active       { transform: scale(0.92); }
+    .modal-close:focus-visible { outline: 2px solid var(--accent); }
+    .modal-body {
+      padding: 36px;
+    }
+    .modal-body p {
+      font-size: 15px;
+      color: #9e9a95;
+      line-height: 1.85;
+      margin-bottom: 20px;
+    }
+    .modal-list-title {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--primary);
+      letter-spacing: 0.04em;
+      margin-bottom: 12px;
+      margin-top: 4px;
+    }
+    .modal-list {
+      list-style: none;
+      margin-bottom: 24px;
+    }
+    .modal-list li {
+      display: flex;
+      gap: 12px;
+      font-size: 14px;
+      color: #888;
+      line-height: 1.7;
+      padding: 5px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+    }
+    .modal-list li:last-child { border-bottom: none; }
+    .modal-list li::before {
+      content: '—';
+      color: var(--accent);
+      flex-shrink: 0;
+      font-size: 13px;
+      margin-top: 1px;
+    }
+    .modal-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 8px; }
+
+    @keyframes bounceDown {
+      0%, 100% { transform: translateY(0); opacity: 0.5; }
+      50%       { transform: translateY(3px); opacity: 1; }
+    }
+
+    /* ── WIDE MODAL ── */
+    .modal-box.modal-wide { max-width: 900px; }
+
+    /* ── MEDIA SECTIONS ── */
+    .modal-media-section {
+      padding: 0 36px 36px;
+    }
+    .modal-section-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0 36px 32px;
+    }
+    .modal-section-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      color: var(--secondary);
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    /* Graphics grid */
+    .graphics-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    .graphic-item {
+      position: relative;
+      overflow: hidden;
+      border-radius: 8px;
+      cursor: zoom-in;
+      background: #111;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+    .graphic-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), opacity 0.25s ease;
+    }
+    .graphic-item:hover img {
+      transform: scale(1.04);
+      opacity: 0.82;
+    }
+    .graphic-zoom-icon {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      background: rgba(0,0,0,0.7);
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .graphic-item:hover .graphic-zoom-icon { opacity: 1; }
+
+    /* Video list */
+    .video-list {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .video-label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--secondary);
+      margin-bottom: 10px;
+      letter-spacing: 0.03em;
+    }
+    .video-wrap {
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .video-wrap iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 8px;
+    }
+    .video-item video {
+      width: 100%;
+      max-height: 500px;
+      border-radius: 8px;
+      background: #000;
+      display: block;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    /* Lightbox */
+    .lightbox-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.96);
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+    .lightbox-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+    .lightbox-img {
+      max-width: 90vw;
+      max-height: 88vh;
+      object-fit: contain;
+      border-radius: 4px;
+      user-select: none;
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 20px;
+      right: 24px;
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.7);
+      font-size: 32px;
+      cursor: pointer;
+      line-height: 1;
+      transition: color 0.15s ease;
+      z-index: 10;
+      padding: 4px;
+    }
+    .lightbox-close:hover { color: #fff; }
+    .lightbox-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 50%;
+      width: 46px;
+      height: 46px;
+      cursor: pointer;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s ease;
+      z-index: 10;
+    }
+    .lightbox-nav:hover { background: rgba(255,255,255,0.18); }
+    .lightbox-prev { left: 20px; }
+    .lightbox-next { right: 20px; }
+    .lightbox-counter {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 12px;
+      color: rgba(255,255,255,0.45);
+      letter-spacing: 0.08em;
+    }
+
+    /* Blog preview cards */
+    .blog-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .blog-card {
+      display: flex;
+      gap: 0;
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 10px;
+      overflow: hidden;
+      text-decoration: none;
+      background: rgba(255,255,255,0.02);
+      transition: border-color 0.2s ease, transform 0.2s ease;
+      cursor: pointer;
+    }
+    .blog-card:hover {
+      border-color: rgba(255,255,255,0.15);
+      transform: translateY(-1px);
+    }
+    .blog-card-img {
+      width: 130px;
+      min-width: 130px;
+      overflow: hidden;
+      background: #111;
+      flex-shrink: 0;
+    }
+    .blog-card-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.35s ease;
+    }
+    .blog-card:hover .blog-card-img img { transform: scale(1.04); }
+    .blog-card-content {
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 6px;
+    }
+    .blog-card-title {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--primary);
+      line-height: 1.4;
+      letter-spacing: -0.01em;
+    }
+    .blog-card-excerpt {
+      font-size: 12.5px;
+      color: #666;
+      line-height: 1.6;
+    }
+    .blog-card .blog-card-link {
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .hero-inner {
+        grid-template-columns: 1fr;
+        gap: 48px;
+        padding: 64px 24px;
+      }
+      .photo-frame {
+        width: 200px;
+        height: 248px;
+        margin: 0 auto;
+      }
+      .bio-inner {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+      .portfolio-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .testimonials-grid {
+        grid-template-columns: 1fr;
+      }
+      .nav-logos { display: none; }
+      .footer-inner { flex-direction: column; align-items: flex-start; }
+    }
+    @media (max-width: 600px) {
+      .portfolio-grid { grid-template-columns: 1fr; }
+      .hero-heading { font-size: 52px; }
+      .nav-inner { padding: 0 20px; }
+      .bio-section, .portfolio-section, .testimonials-section { padding: 72px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-inner">
+      <span class="nav-brand">Dan Rowe</span>
+      <div class="nav-logos">
+        <button class="nav-logo-btn" onclick="openModal('purplex')" aria-label="Purplex Marketing">
+          <img src="purplex_marketing_logo.jpg" alt="Purplex Marketing" style="height:26px; border-radius:3px; mix-blend-mode:screen;">
+        </button>
+        <button class="nav-logo-btn" onclick="openModal('warwick')" aria-label="Warwick North West">
+          <img src="WarwickNorthWest.jpg" alt="Warwick North West" style="height:30px; border-radius:4px;">
+        </button>
+        <button class="nav-logo-btn" onclick="openModal('bridgwater')" aria-label="Bridgwater United">
+          <img src="bridgwater-utd_logov2.png" alt="Bridgwater United" style="height:34px;">
+        </button>
+        <button class="nav-logo-btn" onclick="openModal('taunton')" aria-label="Taunton Town F.C.">
+          <img src="TauntonTownLogo.png" alt="Taunton Town F.C." style="height:34px;">
+        </button>
+        <button class="nav-logo-btn" onclick="openModal('starbubs')" aria-label="StarBubs">
+          <img src="StarBubslogo.jpg" alt="StarBubs" style="height:28px; border-radius:4px;">
+        </button>
+      </div>
+      <a href="Daniel_Rowe_CV.pdf" download class="nav-cv">Download CV</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow hero-kicker">Content · Marketing · Media</p>
+        <h1 class="hero-heading">Dan<br>Rowe</h1>
+        <span class="rule hero-rule"></span>
+        <p class="hero-bio">
+          Writer, content manager, and social media strategist. Degree in Creative and Professional Writing from UWE Bristol. Promoted to management level within 13 months at a national marketing agency. Experience across professional sport, consumer brands, and B2B marketing. I serve real business goals with creative ideas and clear, engaging campaigns.
+        </p>
+        <div class="hero-tags">
+          <span class="tag">Content Strategy</span>
+          <span class="tag">Copywriting</span>
+          <span class="tag">Social Media</span>
+          <span class="tag">Video Production</span>
+          <span class="tag">PR</span>
+          <span class="tag">Email Marketing</span>
+        </div>
+        <div class="hero-tags" style="margin-top:10px;">
+          <span class="tag">BA Creative &amp; Professional Writing — UWE Bristol (2:1)</span>
+          <span class="tag">HND Business Studies — Distinction</span>
+        </div>
+      </div>
+      <div class="photo-frame">
+        <div class="photo-wrap">
+          <img src="Headshot.jpg" alt="Dan Rowe">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PORTFOLIO -->
+  <section class="portfolio-section" id="portfolio">
+    <div class="portfolio-inner">
+      <div class="portfolio-header">
+        <p class="eyebrow">Selected Work</p>
+        <h2>Portfolio</h2>
+        <p class="portfolio-hint">Click any card to view the work.</p>
+      </div>
+
+      <div class="portfolio-grid">
+
+        <!-- Purplex -->
+        <div class="card" onclick="openModal('purplex')" tabindex="0" role="button" aria-label="Open Purplex Marketing case study" onkeydown="if(event.key==='Enter'||event.key===' ')openModal('purplex')">
+          <div class="card-logo">
+            <img src="purplex_marketing_logo.jpg" alt="Purplex Marketing" style="height:36px; border-radius:4px; mix-blend-mode:screen;">
+          </div>
+          <p class="card-title">Purplex Marketing</p>
+          <p class="card-role">Internal Content Manager · 2024–Present</p>
+          <div class="card-tags">
+            <span class="tag">Copywriting</span>
+            <span class="tag">PR</span>
+            <span class="tag">Email</span>
+            <span class="tag">SEO</span>
+            <span class="tag">Strategy</span>
+          </div>
+          <div class="card-arrow">
+            <span>View work</span>
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
+              <path d="M1 6.5h11M6.5 1l5.5 5.5-5.5 5.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Warwick North West -->
+        <div class="card" onclick="openModal('warwick')" tabindex="0" role="button" aria-label="Open Warwick North West case study" onkeydown="if(event.key==='Enter'||event.key===' ')openModal('warwick')">
+          <div class="card-logo">
+            <img src="WarwickNorthWest.jpg" alt="Warwick North West" style="height:50px; border-radius:6px;">
+          </div>
+          <p class="card-title">Warwick North West</p>
+          <p class="card-role">PR Writer &amp; Strategist</p>
+          <div class="card-tags">
+            <span class="tag">Brand Strategy</span>
+            <span class="tag">PR Writing</span>
+            <span class="tag">Email Marketing</span>
+            <span class="tag">Web Copy</span>
+          </div>
+          <div class="card-arrow">
+            <span>View work</span>
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
+              <path d="M1 6.5h11M6.5 1l5.5 5.5-5.5 5.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Bridgwater United -->
+        <div class="card" onclick="openModal('bridgwater')" tabindex="0" role="button" aria-label="Open Bridgwater United case study" onkeydown="if(event.key==='Enter'||event.key===' ')openModal('bridgwater')">
+          <div class="card-logo">
+            <img src="bridgwater-utd_logov2.png" alt="Bridgwater United" style="height:52px;">
+          </div>
+          <p class="card-title">Bridgwater United F.C.</p>
+          <p class="card-role">Head of Media · 2025–Present</p>
+          <div class="card-tags">
+            <span class="tag">Social Media</span>
+            <span class="tag">Video</span>
+            <span class="tag">Brand</span>
+            <span class="tag">Match Reports</span>
+            <span class="tag">Graphic Design</span>
+          </div>
+          <div class="card-arrow">
+            <span>View work</span>
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
+              <path d="M1 6.5h11M6.5 1l5.5 5.5-5.5 5.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Taunton Town -->
+        <div class="card" onclick="openModal('taunton')" tabindex="0" role="button" aria-label="Open Taunton Town case study" onkeydown="if(event.key==='Enter'||event.key===' ')openModal('taunton')">
+          <div class="card-logo">
+            <img src="TauntonTownLogo.png" alt="Taunton Town F.C." style="height:52px;">
+          </div>
+          <p class="card-title">Taunton Town F.C.</p>
+          <p class="card-role">Assistant Head of Media · 2023–2025</p>
+          <div class="card-tags">
+            <span class="tag">Videography</span>
+            <span class="tag">Social Media</span>
+            <span class="tag">Matchday</span>
+            <span class="tag">Graphic Design</span>
+          </div>
+          <div class="card-arrow">
+            <span>View work</span>
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
+              <path d="M1 6.5h11M6.5 1l5.5 5.5-5.5 5.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- StarBubs -->
+        <div class="card" onclick="openModal('starbubs')" tabindex="0" role="button" aria-label="Open StarBubs case study" onkeydown="if(event.key==='Enter'||event.key===' ')openModal('starbubs')">
+          <div class="card-logo">
+            <img src="StarBubslogo.jpg" alt="StarBubs" style="height:48px; border-radius:6px;">
+          </div>
+          <p class="card-title">StarBubs</p>
+          <p class="card-role">Content &amp; Social Media</p>
+          <div class="card-tags">
+            <span class="tag">Social Media</span>
+            <span class="tag">Brand Content</span>
+            <span class="tag">Strategy</span>
+            <span class="tag">Graphic Design</span>
+          </div>
+          <div class="card-arrow">
+            <span>View work</span>
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
+              <path d="M1 6.5h11M6.5 1l5.5 5.5-5.5 5.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testimonials-section">
+    <div class="testimonials-inner">
+      <div class="testimonials-header">
+        <p class="eyebrow">Reviews</p>
+        <h2>What people say</h2>
+      </div>
+      <div class="testimonials-grid">
+        <div class="tcard">
+          <div class="tcard-mark">"</div>
+          <p class="tcard-quote">I approached Dan to help with my tutoring business and he's done wonders for it. He helped me realise who my actual target audience was and how to target them. He's not only created me great content, but given me so much digital marketing advice. Our leads picked up massively and I'm super grateful for his help.</p>
+          <div>
+            <p class="tcard-name">Holly Hartwyn</p>
+            <p class="tcard-role">Founder, Hartwyn Tutoring</p>
+          </div>
+        </div>
+        <div class="tcard">
+          <div class="tcard-mark">"</div>
+          <p class="tcard-quote">Working with Dan felt like having a full media team in one person. He understood the brand from day one, brought real creative direction to the content, and delivered consistently. The growth we saw on social was down to his work.</p>
+          <div>
+            <p class="tcard-name">Melody Winstanley</p>
+            <p class="tcard-role">Founder, StarBubs</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <p class="footer-name">Dan Rowe</p>
+        <p class="footer-sub">Content Manager · Writer · Marketer</p>
+      </div>
+      <div class="footer-links">
+        <a href="mailto:danrowe2011@live.co.uk" class="footer-link">danrowe2011@live.co.uk</a>
+        <a href="tel:07462897104" class="footer-link">07462 897104</a>
+        <a href="Daniel_Rowe_CV.pdf" download class="footer-link accent">Download CV</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ── MODALS ── -->
+
+  <!-- Purplex -->
+  <div id="modal-purplex" class="modal-overlay" role="dialog" aria-modal="true" aria-label="Purplex Marketing" onclick="if(event.target===this)closeModal('purplex')">
+    <div class="modal-box modal-wide">
+      <div class="modal-head">
+        <div class="modal-head-left">
+          <div class="modal-logo">
+            <img src="purplex_marketing_logo.jpg" alt="Purplex Marketing" style="height:32px; border-radius:4px; mix-blend-mode:screen;">
+          </div>
+          <p class="modal-title">Purplex Marketing</p>
+          <p class="modal-subtitle">Internal Content Manager · September 2024–Present</p>
+        </div>
+        <button class="modal-close" onclick="closeModal('purplex')" aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>Joined Purplex as a Content Writer and was promoted to Internal Content Manager within 13 months, bypassing standard progression to work directly within The Ascot Group. The role expanded into content direction, business strategy, and campaign planning across Purplex Marketing, Insight Data, and the personal brands of senior leadership.</p>
+        <p>Content output spanned video scripts, long-form articles, web pages, press releases, thought-leadership columns, email campaigns, and social media. Most work was for clients in construction, fenestration, and manufacturing.</p>
+        <p class="modal-list-title">Key work</p>
+        <ul class="modal-list">
+          <li>Contributed to a national award-winning PR campaign — Warwick North West winning Fabricator of the Year</li>
+          <li>Wrote and structured email marketing campaigns with defined sales funnels, balancing educational content with sales emails and bespoke landing pages that drove lead generation</li>
+          <li>Produced SEO content, PR copy, web pages, and social posts across multiple client accounts</li>
+          <li>Contributed to brand and content strategy at senior level within The Ascot Group</li>
+        </ul>
+        <div class="modal-tags">
+          <span class="tag">Copywriting</span>
+          <span class="tag">PR</span>
+          <span class="tag">Email Marketing</span>
+          <span class="tag">SEO Content</span>
+          <span class="tag">Content Strategy</span>
+          <span class="tag">Video Scripts</span>
+          <span class="tag">Thought Leadership</span>
+        </div>
+
+        <!-- Document - The Art of Marketing -->
+        <hr class="modal-section-divider">
+        <div class="modal-media-section">
+          <p class="modal-section-label">The Art of Marketing</p>
+          <a href="assets/purplex/Art of Marketing.pdf" target="_blank" rel="noopener" style="display:flex; align-items:stretch; gap:0; background:rgba(160,140,91,0.06); border:1px solid rgba(160,140,91,0.2); border-radius:12px; overflow:hidden; text-decoration:none; max-width:560px; transition:background 0.2s, border-color 0.2s;" onmouseover="this.style.background='rgba(160,140,91,0.1)';this.style.borderColor='rgba(160,140,91,0.38)'" onmouseout="this.style.background='rgba(160,140,91,0.06)';this.style.borderColor='rgba(160,140,91,0.2)'">
+            <div style="width:130px; flex-shrink:0; overflow:hidden;">
+              <img src="assets/purplex/Art of Marketing-cover.jpg" alt="The Art of Marketing cover" style="width:100%; height:100%; object-fit:cover; display:block;">
+            </div>
+            <div style="flex:1; padding:18px 20px; display:flex; flex-direction:column; justify-content:space-between;">
+              <div>
+                <p style="font-size:13px; font-weight:600; color:#e8e0cc; margin:0 0 6px; letter-spacing:0.01em;">The Art of Marketing</p>
+                <p style="font-size:12px; color:rgba(255,255,255,0.4); margin:0 0 12px; line-height:1.5;">Purplex Marketing's flagship guide to strategy, brand, and growth in the construction and fenestration sectors</p>
+              </div>
+              <div style="display:flex; align-items:center; gap:6px;">
+                <span style="font-size:11px; font-weight:600; color:#a08c5b; letter-spacing:0.06em; text-transform:uppercase;">View document</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#a08c5b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <!-- Video -->
+        <hr class="modal-section-divider">
+        <div class="modal-media-section">
+          <p class="modal-section-label">Video</p>
+          <div class="video-list">
+            <div class="video-item">
+              <div class="video-wrap" style="position:relative; padding-top:0;">
+                <video controls poster="assets/purplex/Webinar Promo-poster.jpg" style="width:100%; border-radius:8px; max-height:500px; display:block;">
+                  <source src="assets/purplex/Webinar Promo.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Articles -->
+        <hr class="modal-section-divider">
+        <div class="modal-media-section">
+          <p class="modal-section-label">Published Articles</p>
+          <div class="blog-list">
+            <a class="blog-card" href="https://www.purplexmarketing.com/news/choosing-the-right-pr-agency-for-your-business" target="_blank" rel="noopener">
+              <div class="blog-card-img">
+                <img src="https://www.purplexmarketing.com/wp-content/uploads/2023/07/Shelforce-Kings-Award-4-compressed.jpg" alt="Choosing the Right PR Agency" loading="lazy">
+              </div>
+              <div class="blog-card-content">
+                <p class="blog-card-title">Choosing the Right PR Agency for Your Business</p>
+                <p class="blog-card-excerpt">A guide to finding a PR agency that fits your business goals, budget, and sector — written for Purplex Marketing.</p>
+                <p class="blog-card-link">Read article →</p>
+              </div>
+            </a>
+            <a class="blog-card" href="https://lp.insightdata.co.uk/offer-page-4579" target="_blank" rel="noopener">
+              <div class="blog-card-img">
+                <img src="https://images.leadconnectorhq.com/image/f_webp/q_80/r_1200/u_https://assets.cdn.filesafe.space/oaTGJVXZiB5rxxKm0ZHc/media/69023c35e4eb0b5921e3019a.jpeg" alt="Insight Data" loading="lazy">
+              </div>
+              <div class="blog-card-content">
+                <p class="blog-card-title">Live Data. Real Prospects. Better Results</p>
+                <p class="blog-card-excerpt">Landing page copy for Insight Data's webinar campaign, built to convert fenestration industry leads.</p>
+                <p class="blog-card-link">View page →</p>
+              </div>
+            </a>
+            <a class="blog-card" href="https://www.lifestylewindows.co.uk/case-studies/davies-case-study" target="_blank" rel="noopener">
+              <div class="blog-card-img">
+                <img src="https://www.lifestylewindows.co.uk/wp-content/uploads/2025/04/89547bb0-9415-4c94-98ae-6eabf052e0dc.jpg" alt="Davies Case Study" loading="lazy">
+              </div>
+              <div class="blog-card-content">
+                <p class="blog-card-title">Davies Case Study | Lifestyle Windows</p>
+                <p class="blog-card-excerpt">How a tired conservatory became a year-round orangery — a full case study for Lifestyle Windows.</p>
+                <p class="blog-card-link">Read article →</p>
+              </div>
+            </a>
+            <a class="blog-card" href="https://www.northwichglass.co.uk/brands/kommerling" target="_blank" rel="noopener">
+              <div class="blog-card-img">
+                <img src="https://www.northwichglass.co.uk/wp-content/uploads/2025/04/INT_Kommerling_Modern_Home_FINAL_05-scaled.jpg" alt="Kömmerling Windows" loading="lazy">
+              </div>
+              <div class="blog-card-content">
+                <p class="blog-card-title">Kömmerling Windows — Northwich Glass</p>
+                <p class="blog-card-excerpt">Product page copy for Northwich Glass covering Kömmerling uPVC window systems — thermal performance, security, and sustainability.</p>
+                <p class="blog-card-link">Read article →</p>
+              </div>
+            </a>
+            <a class="blog-card" href="https://www.northeastbifolds.co.uk/aluminium-doors/internal-doors-and-partitions" target="_blank" rel="noopener">
+              <div class="blog-card-img">
+                <img src="https://www.northeastbifolds.co.uk/wp-content/uploads/2025/03/2.jpg" alt="Aluminium Internal Doors" loading="lazy">
+              </div>
+              <div class="blog-card-content">
+                <p class="blog-card-title">Aluminium Internal Doors &amp; Partitions</p>
+                <p class="blog-card-excerpt">Page copy for North East Bifolds covering bespoke aluminium internal doors, glazed screens, and partition systems.</p>
+                <p class="blog-card-link">Read article →</p>
+              </div>
+            </a>
+            <a class="blog-card" href="https://www.uk-brick.com/project/domaine-evremond-kent" target="_blank" rel="noopener">
+              <div class="blog-card-img">
+                <img src="https://placehold.co/260x140/1a1a1a/a08c5b?text=UK+Brick" alt="Domaine Evremond" loading="lazy">
+              </div>
+              <div class="blog-card-content">
+                <p class="blog-card-title">Domaine Evremond — Winter White Brick</p>
+                <p class="blog-card-excerpt">Case study for UK Brick on Taittinger's English vineyard in Kent, where Winter White Linear bricks were selected for the facade.</p>
+                <p class="blog-card-link">Read article →</p>
+              </div>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Warwick -->
+  <div id="modal-warwick" class="modal-overlay" role="dialog" aria-modal="true" aria-label="Warwick North West" onclick="if(event.target===this)closeModal('warwick')">
+    <div class="modal-box modal-wide">
+      <div class="modal-head">
+        <div class="modal-head-left">
+          <div class="modal-logo">
+            <img src="WarwickNorthWest.jpg" alt="Warwick North West" style="height:44px; border-radius:5px;">
+          </div>
+          <p class="modal-title">Warwick North West</p>
+          <p class="modal-subtitle">PR Writer &amp; Strategist</p>
+        </div>
+        <button class="modal-close" onclick="closeModal('warwick')" aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>Worked directly with CEO Greg Johnson to build Warwick North West's tone of voice and brand position from the ground up. We took a unique position within the industry, leading on social value, charity, and industry authority rather than product.</p>
+        <p>The work contributed to a G-Awards Fabricator of the Year win, a national award. I helped guide the digital marketing strategy, led PR activity, wrote all content, including lead generation email marketing and website improvements.</p>
+        <p class="modal-list-title">Key work</p>
+        <ul class="modal-list">
+          <li>Worked with the CEO to define tone of voice and brand position across all channels</li>
+          <li>Built a content strategy around social value and industry leadership, giving WNW a distinct voice in a crowded sector</li>
+          <li>Wrote and contributed to the award entry that won the G-Award Fabricator of the Year</li>
+          <li>Produced and executed a digital marketing plan covering PR, email campaigns, and website copy</li>
+        </ul>
+        <div class="modal-tags">
+          <span class="tag">Brand Strategy</span>
+          <span class="tag">PR Writing</span>
+          <span class="tag">Email Marketing</span>
+          <span class="tag">Web Copy</span>
+        </div>
+
+        <!-- Coverage Stats -->
+        <div style="margin-top:36px; padding-top:28px; border-top:1px solid rgba(255,255,255,0.08);">
+          <p style="font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:#a08c5b; font-weight:600; margin-bottom:20px;">PR Coverage · 2025 Year Review</p>
+          <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:28px;">
+            <div style="background:rgba(160,140,91,0.07); border:1px solid rgba(160,140,91,0.18); border-radius:10px; padding:20px 16px; text-align:center;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a08c5b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin:0 auto 10px; display:block; opacity:0.7;"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6z"/></svg>
+              <p style="font-size:28px; font-weight:700; color:#a08c5b; letter-spacing:-0.02em; margin:0 0 4px;">97</p>
+              <p style="font-size:11px; color:rgba(255,255,255,0.5); margin:0; letter-spacing:0.04em;">Pieces of coverage</p>
+            </div>
+            <div style="background:rgba(160,140,91,0.07); border:1px solid rgba(160,140,91,0.18); border-radius:10px; padding:20px 16px; text-align:center;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a08c5b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin:0 auto 10px; display:block; opacity:0.7;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              <p style="font-size:28px; font-weight:700; color:#a08c5b; letter-spacing:-0.02em; margin:0 0 4px;">117K</p>
+              <p style="font-size:11px; color:rgba(255,255,255,0.5); margin:0; letter-spacing:0.04em;">Combined reach</p>
+            </div>
+            <div style="background:rgba(160,140,91,0.07); border:1px solid rgba(160,140,91,0.18); border-radius:10px; padding:20px 16px; text-align:center;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a08c5b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin:0 auto 10px; display:block; opacity:0.7;"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+              <p style="font-size:28px; font-weight:700; color:#a08c5b; letter-spacing:-0.02em; margin:0 0 4px;">19</p>
+              <p style="font-size:11px; color:rgba(255,255,255,0.5); margin:0; letter-spacing:0.04em;">Thought-leadership articles</p>
+            </div>
+            <div style="background:rgba(160,140,91,0.07); border:1px solid rgba(160,140,91,0.18); border-radius:10px; padding:20px 16px; text-align:center;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a08c5b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin:0 auto 10px; display:block; opacity:0.7;"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+              <p style="font-size:28px; font-weight:700; color:#a08c5b; letter-spacing:-0.02em; margin:0 0 4px;">5</p>
+              <p style="font-size:11px; color:rgba(255,255,255,0.5); margin:0; letter-spacing:0.04em;">Podcast features</p>
+            </div>
+          </div>
+          <a href="https://purplex.coveragebook.com/b/59c315eacbec8a3a" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:16px; background:rgba(160,140,91,0.06); border:1px solid rgba(160,140,91,0.2); border-radius:12px; padding:18px 20px; text-decoration:none; transition:background 0.2s, border-color 0.2s; max-width:520px;" onmouseover="this.style.background='rgba(160,140,91,0.12)';this.style.borderColor='rgba(160,140,91,0.4)'" onmouseout="this.style.background='rgba(160,140,91,0.06)';this.style.borderColor='rgba(160,140,91,0.2)'">
+            <div style="width:40px; height:40px; border-radius:8px; background:rgba(160,140,91,0.15); border:1px solid rgba(160,140,91,0.25); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a08c5b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            </div>
+            <div style="flex:1; min-width:0;">
+              <p style="font-size:13px; font-weight:600; color:#e8e0cc; margin:0 0 3px; letter-spacing:0.01em;">2025 Year Review — Warwick North West</p>
+              <p style="font-size:12px; color:rgba(255,255,255,0.4); margin:0 0 6px; line-height:1.4;">97 pieces of coverage across trade press, podcasts, and thought-leadership placements</p>
+              <p style="font-size:11px; color:rgba(160,140,91,0.6); margin:0; letter-spacing:0.02em;">purplex.coveragebook.com</p>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:flex-end; gap:4px; flex-shrink:0;">
+              <span style="font-size:11px; font-weight:600; color:#a08c5b; letter-spacing:0.06em; text-transform:uppercase; white-space:nowrap;">View full report</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a08c5b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.6;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- Articles -->
+        <div style="margin-top:36px; padding-top:28px; border-top:1px solid rgba(255,255,255,0.08);">
+          <p style="font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:#a08c5b; font-weight:600; margin-bottom:16px;">Published Articles</p>
+          <div class="blog-list">
+            <a class="blog-card" href="https://glasstimes.co.uk/featured-articles/addressing-britains-housing-crisis-through-fenestration/" target="_blank" rel="noopener">
+              <div class="blog-card-img">
+                <img src="https://glasstimes.co.uk/wp-content/uploads/2026/02/WNW05-Greg-Johnson-Warwick-North-West-MD-scaled-3.jpg" alt="Addressing Britain's Housing Crisis" loading="lazy">
+              </div>
+              <div class="blog-card-content">
+                <p class="blog-card-title">Addressing Britain's Housing Crisis Through Fenestration</p>
+                <p class="blog-card-excerpt">Greg Johnson sets out why the fenestration industry is part of the answer to Britain's housing shortage — published in Glass Times.</p>
+                <p class="blog-card-link">Read article →</p>
+              </div>
+            </a>
+            <a class="blog-card" href="https://www.warwicknorthwest.co.uk/news/metro-mayer-opens-schirmer-saw-investment/" target="_blank" rel="noopener">
+              <div class="blog-card-img">
+                <img src="https://www.warwicknorthwest.co.uk/wp-content/uploads/2025/05/LBN_Warwick_Mayor_140225-4.jpg" alt="Metro Mayor Opens Schirmer Saw" loading="lazy">
+              </div>
+              <div class="blog-card-content">
+                <p class="blog-card-title">Metro Mayor Opens Schirmer Saw Investment</p>
+                <p class="blog-card-excerpt">Metro Mayor Steve Rotheram visits Warwick North West to mark a £750K investment in new Schirmer saw technology.</p>
+                <p class="blog-card-link">Read article →</p>
+              </div>
+            </a>
+            <a class="blog-card" href="https://glasstimes.co.uk/featured-articles/the-warwick-way/" target="_blank" rel="noopener">
+              <div class="blog-card-img">
+                <img src="https://glasstimes.co.uk/wp-content/uploads/2026/01/WNW11-Warwick-North-West-Junior-Leadership-Team-and-Chief-Executive-Greg-Johnson-centre-scaled-2.jpg" alt="The Warwick Way" loading="lazy">
+              </div>
+              <div class="blog-card-content">
+                <p class="blog-card-title">The Warwick Way</p>
+                <p class="blog-card-excerpt">How Warwick North West is tackling the skills crisis through junior leadership structures and educational partnerships — Glass Times feature.</p>
+                <p class="blog-card-link">Read article →</p>
+              </div>
+            </a>
+            <a class="blog-card" href="https://www.windownews.co.uk/how-warwick-north-west-is-filling-the-skills-gap-from-within/" target="_blank" rel="noopener">
+              <div class="blog-card-img">
+                <img src="https://www.windownews.co.uk/wp-content/uploads/2025/09/WNW11-Warwick-North-West-Junior-Leadership-Team-and-Chief-Executive-Greg-Johnson-centre.jpg" alt="Filling the Skills Gap" loading="lazy">
+              </div>
+              <div class="blog-card-content">
+                <p class="blog-card-title">How Warwick North West is Filling the Skills Gap From Within</p>
+                <p class="blog-card-excerpt">A look at Warwick North West's junior management structure and how it's building talent from inside the business — Window News.</p>
+                <p class="blog-card-link">Read article →</p>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- PDF Preview -->
+        <div style="margin-top:36px; padding-top:28px; border-top:1px solid rgba(255,255,255,0.08);">
+          <p style="font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:#a08c5b; font-weight:600; margin-bottom:16px;">Award Advert</p>
+          <div style="border:1px solid rgba(160,140,91,0.2); border-radius:12px; overflow:hidden; background:rgba(255,255,255,0.03);">
+            <iframe src="assets/warwick/Construction and Property Awards Advert.pdf" style="width:100%; height:480px; border:none; display:block;" title="Construction and Property Awards Advert"></iframe>
+          </div>
+          <p style="font-size:11px; color:rgba(255,255,255,0.3); margin:8px 0 0; letter-spacing:0.02em;">Construction and Property Awards Advert</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Bridgwater -->
+  <div id="modal-bridgwater" class="modal-overlay" role="dialog" aria-modal="true" aria-label="Bridgwater United" onclick="if(event.target===this)closeModal('bridgwater')">
+    <div class="modal-box modal-wide">
+      <div class="modal-head">
+        <div class="modal-head-left">
+          <div class="modal-logo">
+            <img src="bridgwater-utd_logov2.png" alt="Bridgwater United" style="height:52px;">
+          </div>
+          <p class="modal-title">Bridgwater United F.C.</p>
+          <p class="modal-subtitle">Head of Media · July 2025–Present</p>
+        </div>
+        <button class="modal-close" onclick="closeModal('bridgwater')" aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>Took over as Head of Media at Bridgwater United and rebuilt the club's content output across all platforms. The starting point was a media operation that needed restructuring. The goal was a professional, consistent standard across every channel.</p>
+        <p>Content now covers matchday and the full week, from pre-match graphics to post-match video and longer interview formats. The work on brand direction came from conversations directly with club ownership and senior leadership.</p>
+        <p class="modal-list-title">Key work</p>
+        <ul class="modal-list">
+          <li>Rebuilt social media output from the ground up, driving growth in engagement across all platforms</li>
+          <li>Produced video highlight packages, player interviews, training montages, and matchday graphics</li>
+          <li>Established a consistent weekly content schedule to strengthen fan visibility and connection</li>
+          <li>Worked with club ownership on brand identity, tone of voice, and media strategy</li>
+        </ul>
+        <div style="display:flex; align-items:flex-end; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-top:8px;">
+          <div class="modal-tags" style="margin-top:0;">
+            <span class="tag">Social Media</span>
+            <span class="tag">Video Production</span>
+            <span class="tag">Brand Strategy</span>
+            <span class="tag">Content Planning</span>
+            <span class="tag">Media Management</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:6px; color:var(--accent); font-size:11px; letter-spacing:0.06em; text-transform:uppercase; flex-shrink:0; padding-bottom:2px;">
+            <span>Scroll for work</span>
+            <svg width="12" height="14" viewBox="0 0 12 14" fill="none" style="animation:bounceDown 1.6s ease-in-out infinite;">
+              <path d="M6 1v10M1 7l5 5 5-5" stroke="var(--accent)" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Graphics -->
+      <hr class="modal-section-divider">
+      <div class="modal-media-section">
+        <p class="modal-section-label">Graphics</p>
+        <div class="graphics-grid" id="bridgwater-graphics">
+          <div class="graphic-item" onclick="openLightbox('bridgwater-graphics',0)" tabindex="0" role="button" aria-label="View Match Day Graphic">
+            <img src="assets/bridgwater/Match Day Graphic-web.jpg" alt="Match Day Graphic" loading="lazy">
+            <div class="graphic-zoom-icon">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4.5" stroke="#fff" stroke-width="1.3"/><path d="M9.5 9.5l3 3" stroke="#fff" stroke-width="1.3" stroke-linecap="round"/><path d="M4 6h4M6 4v4" stroke="#fff" stroke-width="1.2" stroke-linecap="round"/></svg>
+            </div>
+          </div>
+          <div class="graphic-item" onclick="openLightbox('bridgwater-graphics',1)" tabindex="0" role="button" aria-label="View Quote Graphic">
+            <img src="assets/bridgwater/Quote Graphic-web.jpg" alt="Quote Graphic" loading="lazy">
+            <div class="graphic-zoom-icon">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4.5" stroke="#fff" stroke-width="1.3"/><path d="M9.5 9.5l3 3" stroke="#fff" stroke-width="1.3" stroke-linecap="round"/><path d="M4 6h4M6 4v4" stroke="#fff" stroke-width="1.2" stroke-linecap="round"/></svg>
+            </div>
+          </div>
+          <div class="graphic-item" onclick="openLightbox('bridgwater-graphics',2)" tabindex="0" role="button" aria-label="View Interview Graphic">
+            <img src="assets/bridgwater/Interview Graphic-web.jpg" alt="Interview Graphic" loading="lazy">
+            <div class="graphic-zoom-icon">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4.5" stroke="#fff" stroke-width="1.3"/><path d="M9.5 9.5l3 3" stroke="#fff" stroke-width="1.3" stroke-linecap="round"/><path d="M4 6h4M6 4v4" stroke="#fff" stroke-width="1.2" stroke-linecap="round"/></svg>
+            </div>
+          </div>
+          <div class="graphic-item" onclick="openLightbox('bridgwater-graphics',3)" tabindex="0" role="button" aria-label="View Community Day">
+            <img src="assets/bridgwater/Community Day-web.jpg" alt="Community Day" loading="lazy">
+            <div class="graphic-zoom-icon">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4.5" stroke="#fff" stroke-width="1.3"/><path d="M9.5 9.5l3 3" stroke="#fff" stroke-width="1.3" stroke-linecap="round"/><path d="M4 6h4M6 4v4" stroke="#fff" stroke-width="1.2" stroke-linecap="round"/></svg>
+            </div>
+          </div>
+          <div class="graphic-item" onclick="openLightbox('bridgwater-graphics',4)" tabindex="0" role="button" aria-label="View Back on Instagram">
+            <img src="assets/bridgwater/Back on Instagram-web.jpg" alt="Back on Instagram" loading="lazy">
+            <div class="graphic-zoom-icon">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4.5" stroke="#fff" stroke-width="1.3"/><path d="M9.5 9.5l3 3" stroke="#fff" stroke-width="1.3" stroke-linecap="round"/><path d="M4 6h4M6 4v4" stroke="#fff" stroke-width="1.2" stroke-linecap="round"/></svg>
+            </div>
+          </div>
+          <div class="graphic-item" onclick="openLightbox('bridgwater-graphics',5)" tabindex="0" role="button" aria-label="View FA Vase">
+            <img src="assets/bridgwater/Fa Vase-web.jpg" alt="FA Vase" loading="lazy">
+            <div class="graphic-zoom-icon">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4.5" stroke="#fff" stroke-width="1.3"/><path d="M9.5 9.5l3 3" stroke="#fff" stroke-width="1.3" stroke-linecap="round"/><path d="M4 6h4M6 4v4" stroke="#fff" stroke-width="1.2" stroke-linecap="round"/></svg>
+            </div>
+          </div>
+          <div class="graphic-item" onclick="openLightbox('bridgwater-graphics',6)" tabindex="0" role="button" aria-label="View Highlights">
+            <img src="assets/bridgwater/Highlights.webp" alt="Highlights" loading="lazy">
+            <div class="graphic-zoom-icon">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4.5" stroke="#fff" stroke-width="1.3"/><path d="M9.5 9.5l3 3" stroke="#fff" stroke-width="1.3" stroke-linecap="round"/><path d="M4 6h4M6 4v4" stroke="#fff" stroke-width="1.2" stroke-linecap="round"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Writing -->
+      <hr class="modal-section-divider">
+      <div class="modal-media-section">
+        <p class="modal-section-label">Writing</p>
+        <div class="blog-list">
+          <a class="blog-card" href="https://www.bridgwaterunitedfc.com/robins-run-riot-in-cornwall/" target="_blank" rel="noopener">
+            <div class="blog-card-img">
+              <img src="https://www.bridgwaterunitedfc.com/wp-content/uploads/2026/03/JL.jpg" alt="Robins Run Riot in Cornwall" loading="lazy">
+            </div>
+            <div class="blog-card-content">
+              <p class="blog-card-title">Robins Run Riot in Cornwall</p>
+              <p class="blog-card-excerpt">Bridgwater United dominated Helston Athletic away from home, securing a 6-2 victory despite their hosts finishing with ten men.</p>
+              <p class="blog-card-link">Read article →</p>
+            </div>
+          </a>
+          <a class="blog-card" href="https://www.bridgwaterunitedfc.com/robins-earn-hard-fought-point/" target="_blank" rel="noopener">
+            <div class="blog-card-img">
+              <img src="https://www.bridgwaterunitedfc.com/wp-content/uploads/2026/02/3.jpg" alt="Robins Earn Hard-Fought Point" loading="lazy">
+            </div>
+            <div class="blog-card-content">
+              <p class="blog-card-title">Robins Earn Hard-Fought Point</p>
+              <p class="blog-card-excerpt">A resilient 0-0 draw against Buckland Athletic, with both sides creating chances in a tight contest that neither could separate.</p>
+              <p class="blog-card-link">Read article →</p>
+            </div>
+          </a>
+          <a class="blog-card" href="https://www.bridgwaterunitedfc.com/robins-leave-cornwall-empty-handed/" target="_blank" rel="noopener">
+            <div class="blog-card-img">
+              <img src="https://www.bridgwaterunitedfc.com/wp-content/uploads/2025/12/3.jpg" alt="Robins Leave Cornwall Empty-Handed" loading="lazy">
+            </div>
+            <div class="blog-card-content">
+              <p class="blog-card-title">Robins Leave Cornwall Empty-Handed</p>
+              <p class="blog-card-excerpt">A 3-0 defeat away to Newquay AFC on a difficult December afternoon, despite a second-half response from the visitors.</p>
+              <p class="blog-card-link">Read article →</p>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Videos -->
+      <hr class="modal-section-divider">
+      <div class="modal-media-section">
+        <p class="modal-section-label">Video</p>
+        <div class="video-list">
+          <div class="video-item">
+            <p class="video-label">Behind the Nest</p>
+            <video controls preload="metadata" playsinline>
+              <source src="assets/bridgwater/Behind the Nest.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="video-item">
+            <p class="video-label">Training Montage</p>
+            <video controls preload="metadata" playsinline>
+              <source src="assets/bridgwater/Training Montage.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="video-item">
+            <p class="video-label">Dave Pearse Interview</p>
+            <video controls preload="metadata" playsinline>
+              <source src="assets/bridgwater/Dave Pearse Interview.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="video-item">
+            <p class="video-label">Unbeaten Promo</p>
+            <video controls preload="metadata" playsinline poster="assets/bridgwater/Unbeaten Promo-poster.jpg">
+              <source src="assets/bridgwater/Unbeaten Promo.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="video-item">
+            <p class="video-label">JL3 Interview</p>
+            <video controls preload="metadata" playsinline>
+              <source src="assets/bridgwater/JL3 Interview.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Taunton -->
+  <div id="modal-taunton" class="modal-overlay" role="dialog" aria-modal="true" aria-label="Taunton Town F.C." onclick="if(event.target===this)closeModal('taunton')">
+    <div class="modal-box modal-wide">
+      <div class="modal-head">
+        <div class="modal-head-left">
+          <div class="modal-logo">
+            <img src="TauntonTownLogo.png" alt="Taunton Town F.C." style="height:52px;">
+          </div>
+          <p class="modal-title">Taunton Town F.C.</p>
+          <p class="modal-subtitle">Assistant Head of Media · July 2023–2025</p>
+        </div>
+        <button class="modal-close" onclick="closeModal('taunton')" aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>Started at Taunton Town as a live matchday reporter, writing real-time social updates from the ground. Within the first year, the role expanded into filming and editing. By the end, I was operating as Assistant Head of Media and lead videographer across all club output.</p>
+        <p>Multi-camera match coverage, YouTube highlight packages, training footage, player interviews, and graphics all became part of my output. The focus was always on content that connected with fans and reflected the club's identity.</p>
+        <p class="modal-list-title">Key work</p>
+        <ul class="modal-list">
+          <li>Grew from matchday reporter to assistant head and lead videographer</li>
+          <li>Filmed and edited multi-camera match coverage and highlight packages for YouTube and social media</li>
+          <li>Contributed to the club's digital strategy, producing content that reached beyond the existing fanbase</li>
+          <li>Managed writing, social media, video production, and technical filming across a full season</li>
+        </ul>
+        <div class="modal-tags">
+          <span class="tag">Videography</span>
+          <span class="tag">Video Editing</span>
+          <span class="tag">Social Media</span>
+          <span class="tag">Content Strategy</span>
+          <span class="tag">Matchday Reporting</span>
+        </div>
+
+        <!-- Graphics -->
+        <hr class="modal-section-divider">
+        <div class="modal-media-section">
+          <p class="modal-section-label">Graphics</p>
+          <div class="graphics-grid" id="taunton-graphics">
+            <div class="graphic-item" onclick="openLightbox('taunton-graphics',0)" tabindex="0" role="button" aria-label="View Fixtures">
+              <img src="assets/taunton/Fixtures-web.jpg" alt="Fixtures" loading="lazy">
+              <div class="graphic-zoom-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4.5" stroke="#fff" stroke-width="1.3"/><path d="M9.5 9.5l3 3" stroke="#fff" stroke-width="1.3" stroke-linecap="round"/><path d="M4 6h4M6 4v4" stroke="#fff" stroke-width="1.2" stroke-linecap="round"/></svg></div>
+            </div>
+            <div class="graphic-item" onclick="openLightbox('taunton-graphics',1)" tabindex="0" role="button" aria-label="View Full Time">
+              <img src="assets/taunton/Full Time-web.jpg" alt="Full Time" loading="lazy">
+              <div class="graphic-zoom-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4.5" stroke="#fff" stroke-width="1.3"/><path d="M9.5 9.5l3 3" stroke="#fff" stroke-width="1.3" stroke-linecap="round"/><path d="M4 6h4M6 4v4" stroke="#fff" stroke-width="1.2" stroke-linecap="round"/></svg></div>
+            </div>
+            <div class="graphic-item" onclick="openLightbox('taunton-graphics',2)" tabindex="0" role="button" aria-label="View Goal">
+              <img src="assets/taunton/Goal-web.jpg" alt="Goal" loading="lazy">
+              <div class="graphic-zoom-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4.5" stroke="#fff" stroke-width="1.3"/><path d="M9.5 9.5l3 3" stroke="#fff" stroke-width="1.3" stroke-linecap="round"/><path d="M4 6h4M6 4v4" stroke="#fff" stroke-width="1.2" stroke-linecap="round"/></svg></div>
+            </div>
+            <div class="graphic-item" onclick="openLightbox('taunton-graphics',3)" tabindex="0" role="button" aria-label="View Match Day">
+              <img src="assets/taunton/Match Day-web.jpg" alt="Match Day" loading="lazy">
+              <div class="graphic-zoom-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4.5" stroke="#fff" stroke-width="1.3"/><path d="M9.5 9.5l3 3" stroke="#fff" stroke-width="1.3" stroke-linecap="round"/><path d="M4 6h4M6 4v4" stroke="#fff" stroke-width="1.2" stroke-linecap="round"/></svg></div>
+            </div>
+            <div class="graphic-item" onclick="openLightbox('taunton-graphics',4)" tabindex="0" role="button" aria-label="View New Player">
+              <img src="assets/taunton/New Player-web.jpg" alt="New Player" loading="lazy">
+              <div class="graphic-zoom-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4.5" stroke="#fff" stroke-width="1.3"/><path d="M9.5 9.5l3 3" stroke="#fff" stroke-width="1.3" stroke-linecap="round"/><path d="M4 6h4M6 4v4" stroke="#fff" stroke-width="1.2" stroke-linecap="round"/></svg></div>
+            </div>
+            <div class="graphic-item" onclick="openLightbox('taunton-graphics',5)" tabindex="0" role="button" aria-label="View Social Growth">
+              <img src="assets/taunton/Social Growth-web.jpg" alt="Social Growth" loading="lazy">
+              <div class="graphic-zoom-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4.5" stroke="#fff" stroke-width="1.3"/><path d="M9.5 9.5l3 3" stroke="#fff" stroke-width="1.3" stroke-linecap="round"/><path d="M4 6h4M6 4v4" stroke="#fff" stroke-width="1.2" stroke-linecap="round"/></svg></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Videos -->
+        <hr class="modal-section-divider">
+        <div class="modal-media-section">
+          <p class="modal-section-label">Videos</p>
+          <div class="video-list">
+            <div class="video-item">
+              <div class="video-wrap">
+                <iframe src="https://www.youtube.com/embed/UuzKesHod6E" title="Taunton Town Highlights" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+              </div>
+            </div>
+            <div class="video-item">
+              <div class="video-wrap">
+                <iframe src="https://www.youtube.com/embed/f5L5AlRFQbs?start=16" title="Taunton Town Highlights" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+              </div>
+            </div>
+            <div class="video-item">
+              <div class="video-wrap">
+                <iframe src="https://www.youtube.com/embed/4Eg8niMkRCk?start=74" title="Taunton Town Highlights" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- StarBubs -->
+  <div id="modal-starbubs" class="modal-overlay" role="dialog" aria-modal="true" aria-label="StarBubs" onclick="if(event.target===this)closeModal('starbubs')">
+    <div class="modal-box modal-wide">
+      <div class="modal-head">
+        <div class="modal-head-left">
+          <div class="modal-logo">
+            <img src="StarBubslogo.jpg" alt="StarBubs" style="height:44px; border-radius:5px;">
+          </div>
+          <p class="modal-title">StarBubs</p>
+          <p class="modal-subtitle">Content &amp; Social Media</p>
+        </div>
+        <button class="modal-close" onclick="closeModal('starbubs')" aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="color:#a08c5b; margin-bottom:16px;">* Not currently managing the StarBubs social channels.</p>
+        <p>Worked directly with founder Melody Winstanley to build the brand's social media presence from scratch. That meant developing a strategy, creating the content, and maintaining consistent output across platforms while the brand was still finding its feet.</p>
+        <p>StarBubs is a consumer brand that offers fun classes for babies and young children. Given the target audience is parents, and mainly mums, the tone developed was warm and trustworthy. StarBubs feels like a true family and community, one of the key aims of the digital marketing strategy.</p>
+        <p class="modal-list-title">Key work</p>
+        <ul class="modal-list">
+          <li>Developed social media strategy and content</li>
+          <li>Created content aimed at parents, balancing warmth and relatability with brand credibility</li>
+          <li>Created high-impact social videos aimed at gaining engagement</li>
+          <li>Drove social growth and brand visibility for an early-stage consumer business</li>
+        </ul>
+        <div style="display:flex; align-items:flex-end; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-top:8px;">
+          <div class="modal-tags" style="margin-top:0;">
+            <span class="tag">Social Media</span>
+            <span class="tag">Brand Content</span>
+            <span class="tag">Content Strategy</span>
+            <span class="tag">Consumer Brand</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:6px; color:var(--accent); font-size:11px; letter-spacing:0.06em; text-transform:uppercase; flex-shrink:0; padding-bottom:2px;">
+            <span>Scroll for work</span>
+            <svg width="12" height="14" viewBox="0 0 12 14" fill="none" style="animation:bounceDown 1.6s ease-in-out infinite;">
+              <path d="M6 1v10M1 7l5 5 5-5" stroke="var(--accent)" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Graphics -->
+      <hr class="modal-section-divider">
+      <div class="modal-media-section">
+        <p class="modal-section-label">Graphics</p>
+        <div class="graphics-grid" id="starbubs-graphics">
+          <div class="graphic-item" onclick="openLightbox('starbubs-graphics',0)" tabindex="0" role="button" aria-label="View Refreshed Logo">
+            <img src="assets/starbubs/Refreshed Logo.jpg" alt="Refreshed Logo" loading="lazy">
+            <div class="graphic-zoom-icon">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4.5" stroke="#fff" stroke-width="1.3"/><path d="M9.5 9.5l3 3" stroke="#fff" stroke-width="1.3" stroke-linecap="round"/><path d="M4 6h4M6 4v4" stroke="#fff" stroke-width="1.2" stroke-linecap="round"/></svg>
+            </div>
+          </div>
+          <div class="graphic-item" onclick="openLightbox('starbubs-graphics',1)" tabindex="0" role="button" aria-label="View Theme Graphic">
+            <img src="assets/starbubs/Theme Graphic.png" alt="Theme Graphic" loading="lazy">
+            <div class="graphic-zoom-icon">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4.5" stroke="#fff" stroke-width="1.3"/><path d="M9.5 9.5l3 3" stroke="#fff" stroke-width="1.3" stroke-linecap="round"/><path d="M4 6h4M6 4v4" stroke="#fff" stroke-width="1.2" stroke-linecap="round"/></svg>
+            </div>
+          </div>
+          <div class="graphic-item" onclick="openLightbox('starbubs-graphics',2)" tabindex="0" role="button" aria-label="View Flyer">
+            <img src="assets/starbubs/Flyer for socials and direct mail.png" alt="Flyer for socials and direct mail" loading="lazy">
+            <div class="graphic-zoom-icon">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4.5" stroke="#fff" stroke-width="1.3"/><path d="M9.5 9.5l3 3" stroke="#fff" stroke-width="1.3" stroke-linecap="round"/><path d="M4 6h4M6 4v4" stroke="#fff" stroke-width="1.2" stroke-linecap="round"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Videos -->
+      <hr class="modal-section-divider">
+      <div class="modal-media-section">
+        <p class="modal-section-label">Video</p>
+        <div class="video-list">
+          <div class="video-item">
+            <p class="video-label">StarBubs Promo</p>
+            <video controls preload="metadata" playsinline>
+              <source src="assets/starbubs/StarBubs Promo.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="video-item">
+            <p class="video-label">Landing Card</p>
+            <video controls preload="metadata" playsinline>
+              <source src="assets/starbubs/Landing Card.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="video-item">
+            <p class="video-label">Instagram Short</p>
+            <video controls preload="metadata" playsinline>
+              <source src="assets/starbubs/Instagram Short.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="video-item">
+            <p class="video-label">High Energy</p>
+            <video controls preload="metadata" playsinline>
+              <source src="assets/starbubs/High energy video.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="video-item">
+            <p class="video-label">Montage</p>
+            <video controls preload="metadata" playsinline>
+              <source src="assets/starbubs/Montage(1).mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="video-item">
+            <p class="video-label">Customer Testimonial</p>
+            <video controls preload="metadata" playsinline>
+              <source src="assets/starbubs/Testimonial 1.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="video-item">
+            <p class="video-label">Customer Testimonial</p>
+            <video controls preload="metadata" playsinline>
+              <source src="assets/starbubs/Testimonial 2.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="lightbox-overlay" onclick="if(event.target===this)closeLightbox()">
+    <button class="lightbox-close" onclick="closeLightbox()" aria-label="Close">&times;</button>
+    <button class="lightbox-nav lightbox-prev" onclick="lightboxNav(-1)" aria-label="Previous">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M11 4L6 9l5 5" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <img class="lightbox-img" id="lightbox-img" src="" alt="">
+    <button class="lightbox-nav lightbox-next" onclick="lightboxNav(1)" aria-label="Next">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M7 4l5 5-5 5" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <p class="lightbox-counter" id="lightbox-counter"></p>
+  </div>
+
+  <script>
+    function openModal(id) {
+      const el = document.getElementById('modal-' + id);
+      if (!el) return;
+      el.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      // Focus the close button for accessibility
+      el.querySelector('.modal-close').focus();
+    }
+
+    function closeModal(id) {
+      const el = document.getElementById('modal-' + id);
+      if (!el) return;
+      el.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    // Escape key closes any open modal or lightbox
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        if (document.getElementById('lightbox').classList.contains('open')) {
+          closeLightbox();
+          return;
+        }
+        document.querySelectorAll('.modal-overlay.open').forEach(m => {
+          m.classList.remove('open');
+        });
+        document.body.style.overflow = '';
+      }
+      if (e.key === 'ArrowLeft') lightboxNav(-1);
+      if (e.key === 'ArrowRight') lightboxNav(1);
+    });
+
+    // Lightbox
+    let _lbImages = [];
+    let _lbIndex = 0;
+
+    function openLightbox(gridId, index) {
+      const grid = document.getElementById(gridId);
+      if (!grid) return;
+      _lbImages = Array.from(grid.querySelectorAll('img')).map(img => ({ src: img.src, alt: img.alt }));
+      _lbIndex = index;
+      _renderLightbox();
+      document.getElementById('lightbox').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function lightboxNav(dir) {
+      if (!document.getElementById('lightbox').classList.contains('open')) return;
+      _lbIndex = (_lbIndex + dir + _lbImages.length) % _lbImages.length;
+      _renderLightbox();
+    }
+
+    function _renderLightbox() {
+      const img = document.getElementById('lightbox-img');
+      const counter = document.getElementById('lightbox-counter');
+      img.src = _lbImages[_lbIndex].src;
+      img.alt = _lbImages[_lbIndex].alt;
+      counter.textContent = (_lbIndex + 1) + ' / ' + _lbImages.length;
+      // Hide nav arrows when only one image
+      const navs = document.querySelectorAll('.lightbox-nav');
+      navs.forEach(n => n.style.display = _lbImages.length < 2 ? 'none' : '');
+    }
+
+    // Subtle nav border on scroll
+    window.addEventListener('scroll', () => {
+      document.querySelector('nav').style.borderBottomColor =
+        window.scrollY > 50 ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.05)';
+    }, { passive: true });
+  </script>
+
+</body>
+</html>
