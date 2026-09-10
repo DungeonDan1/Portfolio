@@ -692,6 +692,156 @@
       border: 1px solid rgba(255,255,255,0.06);
     }
 
+    /* Site preview */
+    .site-preview {
+      display: block;
+      text-decoration: none;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--surface);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.55), 0 14px 30px -14px rgba(0,0,0,0.85);
+      transition: transform 0.3s cubic-bezier(0.34,1.36,0.64,1), border-color 0.25s ease, box-shadow 0.3s ease;
+    }
+    .site-preview:hover {
+      transform: translateY(-3px);
+      border-color: var(--border-hi);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.55), 0 24px 46px -16px rgba(0,0,0,0.9), 0 12px 32px -20px rgba(201,168,76,0.4);
+    }
+    .site-preview:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+    }
+    .site-preview:active { transform: translateY(-1px); }
+    .site-preview-chrome {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      background: var(--elevated);
+      border-bottom: 1px solid var(--border);
+    }
+    .site-preview-dots { display: flex; gap: 6px; flex-shrink: 0; }
+    .site-preview-dots span {
+      width: 9px; height: 9px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.13);
+    }
+    .site-preview-url {
+      flex: 1;
+      font-size: 11px;
+      color: var(--secondary);
+      background: rgba(0,0,0,0.35);
+      border-radius: 5px;
+      padding: 4px 10px;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .site-preview-shot {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 16 / 10;
+      background: #0b0b0b;
+    }
+    .site-preview-shot img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+      transition: transform 0.5s cubic-bezier(0.34,1.2,0.64,1);
+    }
+    .site-preview:hover .site-preview-shot img { transform: scale(1.03); }
+    .site-preview-shot::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(8,8,8,0.5), rgba(8,8,8,0) 42%);
+      pointer-events: none;
+    }
+    .site-preview-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 16px 20px;
+      border-top: 1px solid var(--border);
+    }
+    .site-preview-name {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--primary);
+      letter-spacing: -0.01em;
+    }
+    .site-preview-desc {
+      font-size: 12px;
+      color: var(--secondary);
+      line-height: 1.55;
+      margin-top: 4px;
+    }
+    .site-preview-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+    .site-preview-cta svg { transition: transform 0.25s ease; }
+    .site-preview:hover .site-preview-cta svg { transform: translate(2px, -2px); }
+    @media (max-width: 560px) {
+      .site-preview-meta { flex-direction: column; align-items: flex-start; gap: 12px; }
+    }
+
+    /* Instagram embeds */
+    /* Instagram fixes each embed at 326px when its script runs and does not
+       reflow on resize, so the columns are sized to match rather than stretch */
+    .ig-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, 326px);
+      justify-content: center;
+      gap: 16px;
+      align-items: start;
+    }
+    .ig-note {
+      font-size: 12px;
+      color: var(--secondary);
+      line-height: 1.55;
+      margin-bottom: 16px;
+    }
+    .ig-note a { color: var(--accent); text-decoration: none; }
+    .ig-note a:hover { text-decoration: underline; }
+    /* Shown only if Instagram's script is blocked or fails. Its script swaps the
+       blockquote for an iframe, so these rules cannot reach a rendered embed. */
+    .ig-grid blockquote.instagram-media {
+      margin: 0;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: rgba(255,255,255,0.02);
+    }
+    .ig-fallback {
+      display: block;
+      padding: 28px 20px;
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 13px;
+      text-align: center;
+    }
+    .ig-fallback:hover { text-decoration: underline; }
+    /* Instagram hard-sets min-width:326px inline, which overflows a phone-width
+       modal. Override it so the embed tracks the column instead. */
+    @media (max-width: 700px) {
+      .ig-grid { grid-template-columns: 1fr; gap: 12px; }
+      .ig-grid > .instagram-media {
+        min-width: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+      }
+    }
+
     /* Lightbox */
     .lightbox-overlay {
       position: fixed;
@@ -1109,7 +1259,7 @@
 
   <!-- Growth Technology -->
   <div id="modal-growthtechnology" class="modal-overlay" role="dialog" aria-modal="true" aria-label="Growth Technology" onclick="if(event.target===this)closeModal('growthtechnology')">
-    <div class="modal-box">
+    <div class="modal-box modal-wide">
       <div class="modal-head">
         <div class="modal-head-left">
           <div class="modal-logo">
@@ -1140,6 +1290,49 @@
           <span class="tag">Business Growth</span>
           <span class="tag">Videography</span>
           <span class="tag">Graphic Design</span>
+        </div>
+      </div>
+
+      <!-- Website -->
+      <hr class="modal-section-divider">
+      <div class="modal-media-section">
+        <p class="modal-section-label">Website</p>
+        <a class="site-preview" href="https://spidermitecontrol.co.uk/" target="_blank" rel="noopener" aria-label="Visit spidermitecontrol.co.uk">
+          <div class="site-preview-chrome" aria-hidden="true">
+            <div class="site-preview-dots"><span></span><span></span><span></span></div>
+            <div class="site-preview-url">spidermitecontrol.co.uk</div>
+          </div>
+          <div class="site-preview-shot">
+            <img src="assets/growthtechnology/spidermitecontrol-preview.jpg" alt="SMC Spidermite Control website home page" loading="lazy">
+          </div>
+          <div class="site-preview-meta">
+            <div>
+              <p class="site-preview-name">SMC Spidermite Control</p>
+              <p class="site-preview-desc">Brand and product site for a pesticide-free spider mite spray, covering how it works, safety, and the wider range.</p>
+            </div>
+            <span class="site-preview-cta">
+              Visit site
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </span>
+          </div>
+        </a>
+      </div>
+
+      <!-- Social -->
+      <hr class="modal-section-divider">
+      <div class="modal-media-section">
+        <p class="modal-section-label">Social</p>
+        <p class="ig-note">Campaign carousels and video produced for <a href="https://www.instagram.com/growthtechnology" target="_blank" rel="noopener">@growthtechnology</a>.</p>
+        <div class="ig-grid">
+          <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DcTsKTOoKMh/?utm_source=ig_embed" data-instgrm-version="14">
+            <a class="ig-fallback" href="https://www.instagram.com/p/DcTsKTOoKMh/" target="_blank" rel="noopener">View the Since 1985 carousel on Instagram &rarr;</a>
+          </blockquote>
+          <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DbvVZX4IfvH/?utm_source=ig_embed" data-instgrm-version="14">
+            <a class="ig-fallback" href="https://www.instagram.com/p/DbvVZX4IfvH/" target="_blank" rel="noopener">View the Ionic range video on Instagram &rarr;</a>
+          </blockquote>
+          <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DaSMNAGEX9n/?utm_source=ig_embed" data-instgrm-version="14">
+            <a class="ig-fallback" href="https://www.instagram.com/p/DaSMNAGEX9n/" target="_blank" rel="noopener">View the spider mite carousel on Instagram &rarr;</a>
+          </blockquote>
         </div>
       </div>
     </div>
@@ -1808,6 +2001,11 @@
       document.body.style.overflow = 'hidden';
       // Focus the close button for accessibility
       el.querySelector('.modal-close').focus();
+      // Instagram only renders blockquotes its script has processed, and the
+      // modal is hidden on first load, so re-run it whenever one is opened
+      if (window.instgrm && el.querySelector('.instagram-media')) {
+        window.instgrm.Embeds.process();
+      }
     }
 
     function closeModal(id) {
@@ -1875,6 +2073,8 @@
         window.scrollY > 50 ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.05)';
     }, { passive: true });
   </script>
+
+  <script async src="https://www.instagram.com/embed.js"></script>
 
 </body>
 </html>
