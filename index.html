@@ -864,6 +864,9 @@
     <div class="nav-inner">
       <span class="nav-brand">Dan Rowe</span>
       <div class="nav-logos">
+        <button class="nav-logo-btn" onclick="openModal('growthtechnology')" aria-label="Growth Technology">
+          <img src="GrowthTechnology.png" alt="Growth Technology" style="height:26px;">
+        </button>
         <button class="nav-logo-btn" onclick="openModal('purplex')" aria-label="Purplex Marketing">
           <img src="purplex_marketing_logo.jpg" alt="Purplex Marketing" style="height:26px; border-radius:3px; mix-blend-mode:screen;">
         </button>
@@ -926,13 +929,35 @@
 
       <div class="portfolio-grid">
 
+        <!-- Growth Technology -->
+        <div class="card" onclick="openModal('growthtechnology')" tabindex="0" role="button" aria-label="Open Growth Technology case study" onkeydown="if(event.key==='Enter'||event.key===' ')openModal('growthtechnology')">
+          <div class="card-logo">
+            <img src="GrowthTechnology.png" alt="Growth Technology" style="height:40px;">
+          </div>
+          <p class="card-title">Growth Technology</p>
+          <p class="card-role">Digital Content · 2026–Present</p>
+          <div class="card-tags">
+            <span class="tag">Content</span>
+            <span class="tag">Strategy</span>
+            <span class="tag">Web Design</span>
+            <span class="tag">Social Media</span>
+            <span class="tag">Graphic Design</span>
+          </div>
+          <div class="card-arrow">
+            <span>View work</span>
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
+              <path d="M1 6.5h11M6.5 1l5.5 5.5-5.5 5.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+
         <!-- Purplex -->
         <div class="card" onclick="openModal('purplex')" tabindex="0" role="button" aria-label="Open Purplex Marketing case study" onkeydown="if(event.key==='Enter'||event.key===' ')openModal('purplex')">
           <div class="card-logo">
             <img src="purplex_marketing_logo.jpg" alt="Purplex Marketing" style="height:36px; border-radius:4px; mix-blend-mode:screen;">
           </div>
           <p class="card-title">Purplex Marketing</p>
-          <p class="card-role">Internal Content Manager · 2024–Present</p>
+          <p class="card-role">Internal Content Manager · 2024–2026</p>
           <div class="card-tags">
             <span class="tag">Copywriting</span>
             <span class="tag">PR</span>
@@ -1082,6 +1107,44 @@
 
   <!-- ── MODALS ── -->
 
+  <!-- Growth Technology -->
+  <div id="modal-growthtechnology" class="modal-overlay" role="dialog" aria-modal="true" aria-label="Growth Technology" onclick="if(event.target===this)closeModal('growthtechnology')">
+    <div class="modal-box">
+      <div class="modal-head">
+        <div class="modal-head-left">
+          <div class="modal-logo">
+            <img src="GrowthTechnology.png" alt="Growth Technology" style="height:30px;">
+          </div>
+          <p class="modal-title">Growth Technology</p>
+          <p class="modal-subtitle">Digital Content · May 2026–Present</p>
+        </div>
+        <button class="modal-close" onclick="closeModal('growthtechnology')" aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>Joined Growth Technology in May 2026, a business trading since 1985. The role covers content, marketing, and design across the company, with output split between physical and digital.</p>
+        <p>The work runs from marketing strategy and website creation through to social media management, videography, and graphic design. I also lead business growth consultations, turning commercial targets into marketing that supports them.</p>
+        <p class="modal-list-title">Key work</p>
+        <ul class="modal-list">
+          <li>Producing physical and digital content across the company's channels</li>
+          <li>Setting marketing strategy and building it out into campaigns</li>
+          <li>Creating and maintaining the company website</li>
+          <li>Managing social media from planning through to publishing</li>
+          <li>Leading business growth consultations</li>
+          <li>Shooting and editing video, and handling graphic design in house</li>
+        </ul>
+        <div class="modal-tags">
+          <span class="tag">Content Creation</span>
+          <span class="tag">Marketing Strategy</span>
+          <span class="tag">Web Design</span>
+          <span class="tag">Social Media</span>
+          <span class="tag">Business Growth</span>
+          <span class="tag">Videography</span>
+          <span class="tag">Graphic Design</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Purplex -->
   <div id="modal-purplex" class="modal-overlay" role="dialog" aria-modal="true" aria-label="Purplex Marketing" onclick="if(event.target===this)closeModal('purplex')">
     <div class="modal-box modal-wide">
@@ -1091,7 +1154,7 @@
             <img src="purplex_marketing_logo.jpg" alt="Purplex Marketing" style="height:32px; border-radius:4px; mix-blend-mode:screen;">
           </div>
           <p class="modal-title">Purplex Marketing</p>
-          <p class="modal-subtitle">Internal Content Manager · September 2024–Present</p>
+          <p class="modal-subtitle">Internal Content Manager · September 2024–May 2026</p>
         </div>
         <button class="modal-close" onclick="closeModal('purplex')" aria-label="Close">&times;</button>
       </div>
